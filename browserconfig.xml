@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- INVINCIT PWA - browserconfig.xml v2.0.0 -->
+<browserconfig>
+  <msapplication>
+    <!-- Configuración de Live Tiles para Windows -->
+    <tile>
+      <square70x70logo src="/images/icon-72x72.png"/>
+      <square150x150logo src="/images/icon-144x144.png"/>
+      <wide310x150logo src="/images/icon-310x150.png"/>
+      <square310x310logo src="/images/icon-384x384.png"/>
+      <TileColor>#2563eb</TileColor>
+    </tile>
+    
+    <!-- Configuración de notificaciones -->
+    <notification>
+      <polling-uri src="/api/notifications/poll"/>
+      <frequency>30</frequency>
+      <cycle>1</cycle>
+    </notification>
+    
+    <!-- Badge para contadores -->
+    <badge>
+      <polling-uri src="/api/badge/count"/>
+      <frequency>30</frequency>
+    </badge>
+    
+    <!-- Configuración de la aplicación -->
+    <application>
+      <meta name="application-name" content="INVINCIT"/>
+      <meta name="msapplication-description" content="Reportes Campus UTSC v2.0.0"/>
+      <meta name="msapplication-starturl" content="/"/>
+      <meta name="msapplication-window" content="width=1024;height=768"/>
+      <meta name="msapplication-navbutton-color" content="#2563eb"/>
+      <meta name="msapplication-tooltip" content="INVINCIT - Reportes Campus UTSC"/>
+    </application>
+    
+    <!-- Configuración de tareas -->
+    <task>
+      <name>Nuevo Reporte</name>
+      <action-uri>/#formulario</action-uri>
+      <icon-uri>/images/shortcut-report.png</icon-uri>
+      <window-type>tab</window-type>
+      <parameters>action=new-report</parameters>
+    </task>
+    
+    <task>
+      <name>Contacto</name>
+      <action-uri>/#contacto</action-uri>
+      <icon-uri>/images/shortcut-contact.png</icon-uri>
+      <window-type>tab</window-type>
+      <parameters>action=contact</parameters>
+    </task>
+  </msapplication>
+</browserconfig>
