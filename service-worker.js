@@ -1,308 +1,204 @@
-const CACHE_NAME = "invincit-cache-v2.0.1";
-const STATIC_CACHE_NAME = "invincit-static-v2.0.1";
-const DYNAMIC_CACHE_NAME = "invincit-dynamic-v2.0.1";
+// INVINCIT - Service Worker
+// ========================
 
-// URLs críticas que DEBEN cachearse (rutas relativas)
-const URLS_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/css/normalize.css",
-  "/css/webflow.css", 
-  "/css/ut-ayuda.webflow.css",
-  "/js/webflow.js"
+const CACHE_NAME = 'invincit-v1.2.0';
+const STATIC_CACHE_NAME = 'invincit-static-v1.2.0';
+
+// Solo archivos que SABEMOS que existen
+const STATIC_ASSETS = [
+    './',
+    './index.html',
+    './css/styles.css',
+    './js/script.js',
+    './manifest.json'
 ];
 
-// Iconos críticos (solo los que EXISTEN)
-const ICON_CACHE = [
-  "/images/favicon.ico",
-  "/images/webclip.png",
-  "/images/111111111111111111111111111111111111111111111111.PNG"
+// URLs que siempre deben ir a la red
+const NETWORK_ONLY = [
+    '/api/',
+    '/admin/',
+    '/upload/'
 ];
 
-// URLs externas (verificar disponibilidad)
-const EXTERNAL_CACHE = [
-  "https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap",
-  "https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js",
-  "https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"
-];
+// ===================================
+// EVENTOS DEL SERVICE WORKER
+// ===================================
 
-// ========== INSTALL EVENT ==========
-self.addEventListener("install", event => {
-  console.log("🔧 Service Worker: Instalando v2.0.1...");
-  
-  event.waitUntil(
-    Promise.allSettled([
-      // Cache recursos críticos
-      caches.open(STATIC_CACHE_NAME).then(cache => {
-        console.log("📦 Cacheando recursos críticos...");
-        return Promise.allSettled(
-          [...URLS_TO_CACHE, ...ICON_CACHE].map(url => 
-            cache.add(new Request(url, {cache: 'reload'}))
-              .catch(err => {
-                console.warn(`⚠️ No se pudo cachear: ${url}`, err.message);
-                return null; // Continuar sin fallar
-              })
-          )
-        );
-      }),
-      
-      // Cache recursos externos (sin fallar)
-      caches.open(DYNAMIC_CACHE_NAME).then(cache => {
-        console.log("🌐 Intentando cachear recursos externos...");
-        return Promise.allSettled(
-          EXTERNAL_CACHE.map(url => 
-            fetch(url, {mode: 'cors', cache: 'reload'})
-              .then(response => {
-                if (response.ok) {
-                  return cache.put(url, response);
+// Instalación del Service Worker
+self.addEventListener('install', (event) => {
+    console.log('🔧 Service Worker: Instalando...');
+    
+    event.waitUntil(
+        cacheStaticAssets()
+            .then(() => {
+                console.log('✅ Service Worker: Instalación completada');
+                return self.skipWaiting();
+            })
+            .catch(error => {
+                console.error('❌ Service Worker: Error en instalación:', error);
+                // Continuar de todos modos
+                return self.skipWaiting();
+            })
+    );
+});
+
+// Activación del Service Worker
+self.addEventListener('activate', (event) => {
+    console.log('🚀 Service Worker: Activando...');
+    
+    event.waitUntil(
+        Promise.all([
+            cleanupOldCaches(),
+            self.clients.claim()
+        ]).then(() => {
+            console.log('✅ Service Worker: Activación completada');
+        }).catch(error => {
+            console.error('❌ Service Worker: Error en activación:', error);
+        })
+    );
+});
+
+// Interceptar peticiones de red
+self.addEventListener('fetch', (event) => {
+    const request = event.request;
+    
+    // Ignorar peticiones no HTTP/HTTPS
+    if (!request.url.startsWith('http')) {
+        return;
+    }
+    
+    // Estrategia simple: Network first con cache fallback
+    event.respondWith(
+        fetch(request)
+            .then(response => {
+                // Si la respuesta es exitosa, cachearla
+                if (response.status === 200) {
+                    const responseClone = response.clone();
+                    caches.open(STATIC_CACHE_NAME).then(cache => {
+                        cache.put(request, responseClone);
+                    });
                 }
-                throw new Error(`Response not ok: ${response.status}`);
-              })
-              .catch(err => {
-                console.warn(`⚠️ Recurso externo no disponible: ${url}`, err.message);
-                return null;
-              })
-          )
-        );
-      })
-    ]).then(() => {
-      console.log("✅ Service Worker: Instalación completada");
-      return self.skipWaiting();
-    })
-  );
+                return response;
+            })
+            .catch(() => {
+                // Si falla la red, buscar en caché
+                return caches.match(request).then(cachedResponse => {
+                    return cachedResponse || new Response('Sin conexión', {
+                        status: 503,
+                        statusText: 'Sin conexión'
+                    });
+                });
+            })
+    );
 });
 
-// ========== ACTIVATE EVENT ==========
-self.addEventListener("activate", event => {
-  console.log("🚀 Service Worker: Activando v2.0.1...");
-  
-  event.waitUntil(
-    Promise.all([
-      // Limpiar cachés antiguos
-      caches.keys().then(cacheNames => {
-        return Promise.all(
-          cacheNames.map(cacheName => {
-            if (cacheName !== STATIC_CACHE_NAME && 
-                cacheName !== DYNAMIC_CACHE_NAME &&
-                (cacheName.startsWith("invincit-") || cacheName.startsWith("mi-cache-"))) {
-              console.log(`🗑️ Eliminando caché antiguo: ${cacheName}`);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      }),
-      
-      // Tomar control inmediato
-      self.clients.claim()
-    ]).then(() => {
-      console.log("✅ Service Worker: Activado y en control v2.0.1");
-    })
-  );
+// Manejo de mensajes desde la aplicación principal
+self.addEventListener('message', (event) => {
+    console.log('📨 Service Worker: Mensaje recibido:', event.data);
+    
+    switch (event.data.type) {
+        case 'SKIP_WAITING':
+            self.skipWaiting();
+            break;
+        case 'CACHE_REPORT':
+            cacheReport(event.data.payload);
+            break;
+        case 'GET_CACHE_STATUS':
+            getCacheStatus().then(status => {
+                event.ports[0].postMessage(status);
+            });
+            break;
+        default:
+            console.log('Tipo de mensaje no reconocido:', event.data.type);
+    }
 });
 
-// ========== FETCH EVENT ==========
-self.addEventListener("fetch", event => {
-  // Solo manejar requests HTTP/HTTPS
-  if (!event.request.url.startsWith('http')) {
-    return;
-  }
-  
-  // Ignorar requests del chrome-extension
-  if (event.request.url.startsWith('chrome-extension://')) {
-    return;
-  }
-  
-  // Estrategia basada en el tipo de recurso
-  if (isStaticAsset(event.request)) {
-    event.respondWith(cacheFirst(event.request));
-  } else {
-    event.respondWith(networkFirst(event.request));
-  }
+// Notificaciones push
+self.addEventListener('push', (event) => {
+    console.log('📱 Service Worker: Push recibido');
+    
+    const options = {
+        body: event.data ? event.data.text() : 'Nuevo reporte recibido',
+        icon: './images/icons/icon-192.png',
+        badge: './images/icons/icon-192.png',
+        vibrate: [200, 100, 200],
+        data: {
+            url: './'
+        }
+    };
+    
+    event.waitUntil(
+        self.registration.showNotification('INVINCIT', options)
+    );
 });
 
-// ========== ESTRATEGIAS DE CACHE ==========
+// Click en notificaciones
+self.addEventListener('notificationclick', (event) => {
+    console.log('🔔 Service Worker: Click en notificación');
+    
+    event.notification.close();
+    
+    event.waitUntil(
+        clients.openWindow(event.notification.data.url || './')
+    );
+});
 
-// Cache First - Para recursos estáticos
-async function cacheFirst(request) {
-  try {
-    // Buscar en cache primero
-    const cached = await caches.match(request);
-    if (cached) {
-      console.log(`📦 Cache hit: ${request.url}`);
-      return cached;
+// ===================================
+// FUNCIONES DE CACHÉ SIMPLIFICADAS
+// ===================================
+
+async function cacheStaticAssets() {
+    console.log('📦 Cacheando recursos estáticos...');
+    
+    const cache = await caches.open(STATIC_CACHE_NAME);
+    
+    // Cachear individualmente para evitar que un archivo faltante rompa todo
+    for (const asset of STATIC_ASSETS) {
+        try {
+            await cache.add(asset);
+            console.log(`✅ Cacheado: ${asset}`);
+        } catch (error) {
+            console.warn(`⚠️ No se pudo cachear ${asset}:`, error.message);
+            // Continuar con los demás archivos
+        }
     }
     
-    // Si no está en cache, intentar descargar
-    console.log(`🌐 Descargando: ${request.url}`);
-    const response = await fetch(request);
-    
-    // Solo cachear respuestas exitosas
-    if (response.ok && response.status < 400) {
-      const cache = await caches.open(STATIC_CACHE_NAME);
-      cache.put(request, response.clone());
-      console.log(`💾 Cacheado: ${request.url}`);
-    }
-    
-    return response;
-    
-  } catch (error) {
-    console.error(`❌ Error en cacheFirst para ${request.url}:`, error.message);
-    
-    // Fallback para páginas HTML
-    if (request.destination === 'document') {
-      const cached = await caches.match('/index.html');
-      if (cached) {
-        console.log("📄 Sirviendo index.html como fallback");
-        return cached;
-      }
-    }
-    
-    // Response de error
-    return new Response('Recurso no disponible offline', {
-      status: 503,
-      statusText: 'Service Unavailable',
-      headers: {'Content-Type': 'text/plain'}
-    });
-  }
+    console.log('✅ Proceso de cache completado');
 }
 
-// Network First - Para contenido dinámico
-async function networkFirst(request) {
-  try {
-    console.log(`🌐 Red primero: ${request.url}`);
-    const response = await fetch(request);
+async function cleanupOldCaches() {
+    console.log('🧹 Limpiando cachés antiguos...');
     
-    // Cachear respuestas exitosas
-    if (response.ok && response.status < 400) {
-      const cache = await caches.open(DYNAMIC_CACHE_NAME);
-      cache.put(request, response.clone());
-      console.log(`💾 Actualizado en cache: ${request.url}`);
-    }
+    const cacheNames = await caches.keys();
+    const validCaches = [STATIC_CACHE_NAME, CACHE_NAME];
     
-    return response;
+    const deletePromises = cacheNames
+        .filter(cacheName => !validCaches.includes(cacheName))
+        .map(cacheName => {
+            console.log(`🗑️ Eliminando caché: ${cacheName}`);
+            return caches.delete(cacheName);
+        });
     
-  } catch (error) {
-    console.log(`📱 Red falló, buscando en cache: ${request.url}`);
-    
-    // Buscar en cualquier cache
-    const cached = await caches.match(request);
-    if (cached) {
-      console.log(`📦 Cache fallback: ${request.url}`);
-      return cached;
-    }
-    
-    console.error(`❌ No encontrado: ${request.url}`);
-    
-    // Response de error para recursos no críticos
-    return new Response('No disponible offline', {
-      status: 503,
-      statusText: 'Service Unavailable',
-      headers: {'Content-Type': 'text/plain'}
-    });
-  }
+    await Promise.all(deletePromises);
+    console.log('✅ Limpieza de cachés completada');
 }
 
-// ========== UTILIDADES ==========
+// ===================================
+// MANEJO DE ERRORES GLOBALES
+// ===================================
 
-function isStaticAsset(request) {
-  const url = new URL(request.url);
-  const pathname = url.pathname;
-  
-  // Recursos estáticos por extensión
-  if (pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|webp|avif|woff|woff2|ttf|eot)$/i)) {
-    return true;
-  }
-  
-  // Páginas HTML y manifest
-  if (request.destination === 'document' || pathname.includes('manifest.json')) {
-    return true;
-  }
-  
-  // Fontes de Google
-  if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
-    return true;
-  }
-  
-  return false;
-}
-
-// ========== MANEJO DE MENSAJES ==========
-self.addEventListener('message', event => {
-  console.log('📨 Mensaje recibido:', event.data);
-  
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    console.log("🔄 Forzando actualización del Service Worker");
-    self.skipWaiting();
-  }
-  
-  if (event.data && event.data.type === 'GET_VERSION') {
-    event.ports[0].postMessage({
-      version: CACHE_NAME,
-      static: STATIC_CACHE_NAME,
-      dynamic: DYNAMIC_CACHE_NAME
-    });
-  }
-  
-  if (event.data && event.data.type === 'CLEAR_CACHE') {
-    console.log("🧹 Limpiando cache manualmente");
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => caches.delete(cacheName))
-      );
-    }).then(() => {
-      console.log("✅ Cache limpiado");
-    });
-  }
+self.addEventListener('error', (event) => {
+    console.error('❌ Service Worker error:', event.error);
 });
 
-// ========== NOTIFICACIONES PUSH ==========
-self.addEventListener('push', event => {
-  console.log('📢 Push recibido:', event);
-  
-  const options = {
-    body: event.data ? event.data.text() : 'Nueva notificación de INVINCIT',
-    icon: '/images/icon-192x192.png',
-    badge: '/images/icon-144x144.png',
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
-    actions: [
-      {
-        action: 'open',
-        title: 'Abrir App'
-      },
-      {
-        action: 'close',
-        title: 'Cerrar'
-      }
-    ]
-  };
-  
-  event.waitUntil(
-    self.registration.showNotification('INVINCIT', options)
-  );
+self.addEventListener('unhandledrejection', (event) => {
+    console.error('❌ Service Worker unhandled rejection:', event.reason);
 });
 
-// ========== BACKGROUND SYNC ==========
-self.addEventListener('sync', event => {
-  console.log("🔄 Background sync:", event.tag);
-  
-  if (event.tag === 'background-sync') {
-    event.waitUntil(doBackgroundSync());
-  }
-});
+// ===================================
+// LOGGING FINAL
+// ===================================
 
-async function doBackgroundSync() {
-  console.log("🔄 Ejecutando sincronización en segundo plano");
-  try {
-    // Aquí puedes implementar lógica para enviar datos pendientes
-    console.log("✅ Sincronización completada");
-  } catch (error) {
-    console.error("❌ Error en background sync:", error);
-  }
-}
-
-console.log("🎯 Service Worker INVINCIT v2.0.1 - Errores corregidos");
+console.log('🔧 Service Worker cargado correctamente');
+console.log(`📋 Caché principal: ${STATIC_CACHE_NAME}`);
+console.log(`📦 Recursos a cachear: ${STATIC_ASSETS.length}`);

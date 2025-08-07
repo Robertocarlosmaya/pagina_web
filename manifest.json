@@ -1,114 +1,53 @@
 {
-  "name": "INVINCIT - Reportes Campus UTSC",
+  "name": "INVINCIT - Reportes de Campus",
   "short_name": "INVINCIT",
-  "description": "Aplicación para reportar incidencias en el campus de la Universidad Tecnológica de Santa Catarina",
-  "start_url": "/",
+  "description": "Plataforma para reportar problemas en el campus universitario",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
   "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "es-MX",
-  "dir": "ltr",
-  "categories": ["education", "utilities", "productivity"],
-  "screenshots": [
-    {
-      "src": "images/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Vista móvil de la aplicación INVINCIT"
-    },
-    {
-      "src": "images/screenshot-desktop.png", 
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Vista de escritorio de la aplicación INVINCIT"
-    }
-  ],
+  "theme_color": "#1e40af",
+  "background_color": "#ffffff",
+  "lang": "es",
   "icons": [
     {
-      "src": "images/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "images/icon-96x96.png",
-      "sizes": "96x96", 
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "images/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "images/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "images/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "images/icon-192x192.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231e40af;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%233b82f6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='192' height='192' fill='url(%23grad)' rx='30'/%3E%3Ctext x='96' y='120' font-family='Arial,sans-serif' font-size='100' font-weight='bold' text-anchor='middle' fill='white'%3EI%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "images/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "images/icon-512x512.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231e40af;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%233b82f6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' fill='url(%23grad)' rx='80'/%3E%3Ctext x='256' y='320' font-family='Arial,sans-serif' font-size='280' font-weight='bold' text-anchor='middle' fill='white'%3EI%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Nuevo Reporte",
-      "short_name": "Reporte",
-      "description": "Crear un nuevo reporte de incidencia",
-      "url": "/#formulario",
-      "icons": [
-        {
-          "src": "images/shortcut-report.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "name": "Contacto",
-      "short_name": "Contacto", 
-      "description": "Ver información de contacto",
-      "url": "/#contacto",
-      "icons": [
-        {
-          "src": "images/shortcut-contact.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231e40af;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%233b82f6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='192' height='192' fill='url(%23grad)'/%3E%3Ctext x='96' y='120' font-family='Arial,sans-serif' font-size='80' font-weight='bold' text-anchor='middle' fill='white'%3EI%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231e40af;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%233b82f6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' fill='url(%23grad)'/%3E%3Ctext x='256' y='320' font-family='Arial,sans-serif' font-size='220' font-weight='bold' text-anchor='middle' fill='white'%3EI%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+      {
+  "name": "INVINCIT - Reportes de Campus",
+  "short_name": "INVINCIT", 
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#1e40af",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,...",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
     }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false,
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  }
+  ]
+}
+    
+  ]
 }

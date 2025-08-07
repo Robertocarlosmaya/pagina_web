@@ -108,7 +108,8 @@
         <div id="w-node-d4acc4f9-0b02-d87e-5be2-e1ef4c5cda4e-4c5cda49" class="utility-position-relative">
           <h1 id="inicio" class="h1-heading">Cuida tu campus, haz la diferencia</h1>
           <p class="subheading utility-max-width-md">Tu reporte ayuda a crear un entorno más limpio, seguro y sostenible para toda la comunidad. ¡Participa y mejora nuestro espacio juntos!</p>
-          <div class="button-group">
+          <button id="butInstall" aria-label="install">INSTALAR APP INVINCIT </button>
+
             <a href="#formulario" class="button primary-button-on-inverse w-button">Generar Reporte</a>
           </div>
         </div>
@@ -481,7 +482,7 @@
       }, 5000);
     }
 
-    function createNotification(title, message, buttons = []) {
+    function createNotification(title, message, button = []) {
       const notification = document.createElement('div');
       notification.className = 'app-notification';
       notification.style.cssText = `
@@ -507,7 +508,7 @@
           ${message}
         </div>
         <div style="display: flex; gap: 8px; justify-content: flex-end;">
-          ${buttons.map(btn => `
+          ${button.map(btn => `
             <button 
               data-action="${btn.action}"
               style="
@@ -870,35 +871,34 @@
     window.getAppInfo = getAppInfo;
 
     console.log("🎯 INVINCIT App Script cargado v2.0.0");
-    // Agregar al final de tu script en index.html, después de setupConnectionHandlers():
 
-// ========== DEBUGGING Y MONITORING ==========
-function debugServiceWorker() {
-  navigator.serviceWorker.getRegistration().then(reg => {
-    if (reg) {
-      console.log('✅ SW registrado:', reg.scope);
-      console.log('📊 Estado:', reg.active ? 'Activo' : 'Inactivo');
-      console.log('🔄 Actualizando:', reg.updating ? 'Sí' : 'No');
-    } else {
-      console.log('❌ SW no registrado');
+    // ========== DEBUGGING Y MONITORING ==========
+    function debugServiceWorker() {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (reg) {
+          console.log('✅ SW registrado:', reg.scope);
+          console.log('📊 Estado:', reg.active ? 'Activo' : 'Inactivo');
+          console.log('🔄 Actualizando:', reg.updating ? 'Sí' : 'No');
+        } else {
+          console.log('❌ SW no registrado');
+        }
+      });
+      
+      // Verificar cache
+      caches.keys().then(cacheNames => {
+        console.log('💾 Cachés disponibles:', cacheNames);
+      });
+      
+      // Estado de la app
+      console.log('📱 Info de la app:', getAppInfo());
     }
-  });
-  
-  // Verificar cache
-  caches.keys().then(cacheNames => {
-    console.log('💾 Cachés disponibles:', cacheNames);
-  });
-  
-  // Estado de la app
-  console.log('📱 Info de la app:', getAppInfo());
-}
 
-// Ejecutar debug cada 30 segundos
-setInterval(debugServiceWorker, 30000);
+    // Ejecutar debug cada 30 segundos
+    setInterval(debugServiceWorker, 30000);
 
-// Ejecutar debug inicial
-setTimeout(debugServiceWorker, 2000);
+    // Ejecutar debug inicial
+    setTimeout(debugServiceWorker, 2000);
   </script>
-
+<script src="js/install.js"></script>
 </body>
 </html>
