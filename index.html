@@ -5,7 +5,7 @@
   <title>Contacto - INVINCIT</title>
   
   <!-- PWA Essential Meta Tags -->
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="./manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   
   <!-- Theme and App Configuration -->
@@ -28,7 +28,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="INVINCIT - Reportes Campus UTSC">
   <meta property="og:description" content="Aplicación para reportar incidencias en el campus de la Universidad Tecnológica de Santa Catarina">
-  <meta property="og:image" content="/images/og-image.png">
+  <meta property="og:image" content="./images/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://invincit-utsc.com">
@@ -38,23 +38,23 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="INVINCIT - Reportes Campus UTSC">
   <meta name="twitter:description" content="Aplicación para reportar incidencias en el campus de la Universidad Tecnológica de Santa Catarina">
-  <meta name="twitter:image" content="/images/twitter-card.png">
+  <meta name="twitter:image" content="./images/twitter-card.png">
   
   <!-- Apple Touch Icons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon-180x180.png">
-  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#2563eb">
+  <link rel="apple-touch-icon" sizes="180x180" href="./images/icon-180x180.png">
+  <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#2563eb">
   
   <!-- Microsoft Tiles -->
-  <meta name="msapplication-TileImage" content="/images/icon-144x144.png">
-  <meta name="msapplication-config" content="/browserconfig.xml">
+  <meta name="msapplication-TileImage" content="./images/icon-144x144.png">
+  <meta name="msapplication-config" content="./browserconfig.xml">
   
   <!-- Favicons -->
-  <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <link href="/images/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32">
-  <link href="/images/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16">
+  <link href="./images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="./images/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32">
+  <link href="./images/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16">
   
   <!-- Preload Critical Resources -->
-  <link rel="preload" href="/css/ut-ayuda.webflow.css" as="style">
+  <link rel="preload" href="./css/ut-ayuda.webflow.css" as="style">
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap" as="style">
   
   <!-- DNS Prefetch for External Resources -->
@@ -64,9 +64,9 @@
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   
   <!-- Stylesheets -->
-  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="/css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="/css/ut-ayuda.webflow.css" rel="stylesheet" type="text/css">
+  <link href="./css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="./css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="./css/ut-ayuda.webflow.css" rel="stylesheet" type="text/css">
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -258,11 +258,11 @@
               <label for="clasificacion" style="color: white; display: block; margin-bottom: 0.5rem;">Clasificación *</label>
               <select id="clasificacion" name="clasificacion" class="w-select" required style="width: 100%;">
                 <option value="">Selecciona una categoría</option>
-                <option value="Basura">♻️ Basura</option>
-                <option value="Agua">💧 Agua</option>
-                <option value="Infraestructura">⚠️ Infraestructura</option>
-                <option value="Jardinería">🌳 Jardinería</option>
-                <option value="Otros">🛠️ Otros</option>
+                <option value="Basura">[BASURA] Basura</option>
+                <option value="Agua">[AGUA] Agua</option>
+                <option value="Infraestructura">[INFRA] Infraestructura</option>
+                <option value="Jardinería">[JARDÍN] Jardinería</option>
+                <option value="Otros">[OTROS] Otros</option>
               </select>
             </div>
             
@@ -298,14 +298,14 @@
           </a>
         </div>
         
-        <img src="/images/111111111111111111111111111111111111111111111111.PNG" loading="lazy" width="234" alt="Logo INVINCIT">
+        <img src="./images/111111111111111111111111111111111111111111111111.PNG" loading="lazy" width="234" alt="Logo INVINCIT">
         
         <div>
           <p>¿Tienes algún otro comentario respecto a nuestras instalaciones?</p>
           <p>Contáctanos.</p>
           <div style="margin-top: 1rem;">
-            <div>📞 81-28-95-29-06</div>
-            <div style="margin-top: 0.5rem;">📧 incidenciasutsc@gmail.com</div>
+            <div>[TEL] 81-28-95-29-06</div>
+            <div style="margin-top: 0.5rem;">[EMAIL] incidenciasutsc@gmail.com</div>
           </div>
         </div>
         
@@ -345,7 +345,7 @@
 
   <!-- Core Scripts -->
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="/js/webflow.js"></script>
+  <script src="./js/webflow.js"></script>
 
   <!-- INVINCIT App Script -->
   <script>
@@ -360,7 +360,7 @@
     });
 
     function initializeApp() {
-      console.log("🚀 Inicializando INVINCIT App");
+      console.log("INICIO - Inicializando INVINCIT App");
       
       // Registrar Service Worker
       registerServiceWorker();
@@ -381,20 +381,20 @@
     // ========== SERVICE WORKER ==========
     async function registerServiceWorker() {
       if (!('serviceWorker' in navigator)) {
-        console.warn("❌ Service Worker no soportado");
+        console.warn("ERROR - Service Worker no soportado");
         return false;
       }
 
       try {
-        console.log("🔧 Registrando Service Worker...");
+        console.log("CONFIG - Registrando Service Worker...");
         
-        const registration = await navigator.serviceWorker.register('/service-worker.js', {
-          scope: '/',
+        const registration = await navigator.serviceWorker.register('./service-worker.js', {
+          scope: './',
           updateViaCache: 'none'
         });
         
         swRegistration = registration;
-        console.log("✅ Service Worker registrado:", registration.scope);
+        console.log("EXITO - Service Worker registrado:", registration.scope);
         
         // Manejar actualizaciones
         handleServiceWorkerUpdates(registration);
@@ -407,7 +407,7 @@
         return true;
         
       } catch (error) {
-        console.error("❌ Error registrando Service Worker:", error);
+        console.error("ERROR - Error registrando Service Worker:", error);
         return false;
       }
     }
@@ -415,15 +415,15 @@
     function handleServiceWorkerUpdates(registration) {
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
-        console.log("🔄 Nueva versión encontrada");
+        console.log("UPDATE - Nueva versión encontrada");
         
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              console.log("📦 Nueva versión lista");
+              console.log("UPDATE - Nueva versión lista");
               showUpdateNotification();
             } else {
-              console.log("✅ App instalada y lista para offline");
+              console.log("EXITO - App instalada y lista para offline");
               showInstallSuccess();
             }
           }
@@ -434,7 +434,7 @@
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (refreshing) return;
         refreshing = true;
-        console.log("🔄 Recargando con nueva versión");
+        console.log("UPDATE - Recargando con nueva versión");
         window.location.reload();
       });
     }
@@ -442,7 +442,7 @@
     // ========== NOTIFICACIONES ==========
     function showUpdateNotification() {
       const notification = createNotification(
-        "📱 Nueva versión disponible",
+        "[UPDATE] Nueva versión disponible",
         "Se ha detectado una actualización de la aplicación",
         [
           {
@@ -468,7 +468,7 @@
 
     function showInstallSuccess() {
       const notification = createNotification(
-        "✅ ¡App instalada!",
+        "[EXITO] ¡App instalada!",
         "INVINCIT está listo para funcionar sin conexión",
         [{
           text: "Entendido",
@@ -482,7 +482,7 @@
       }, 5000);
     }
 
-    function createNotification(title, message, button = []) {
+    function createNotification(title, message, buttons = []) {
       const notification = document.createElement('div');
       notification.className = 'app-notification';
       notification.style.cssText = `
@@ -508,7 +508,7 @@
           ${message}
         </div>
         <div style="display: flex; gap: 8px; justify-content: flex-end;">
-          ${button.map(btn => `
+          ${buttons.map(btn => `
             <button 
               data-action="${btn.action}"
               style="
@@ -559,7 +559,7 @@
           registration.waiting.postMessage({type: 'SKIP_WAITING'});
         }
       } catch (error) {
-        console.error("❌ Error actualizando app:", error);
+        console.error("ERROR - Error actualizando app:", error);
         window.location.reload();
       }
     }
@@ -567,14 +567,14 @@
     // ========== PWA INSTALLATION ==========
     function setupPWAInstall() {
       window.addEventListener('beforeinstallprompt', (e) => {
-        console.log("💾 PWA puede ser instalada");
+        console.log("PWA - PWA puede ser instalada");
         e.preventDefault();
         deferredPrompt = e;
         showInstallBanner();
       });
       
       window.addEventListener('appinstalled', () => {
-        console.log("✅ PWA instalada exitosamente");
+        console.log("EXITO - PWA instalada exitosamente");
         deferredPrompt = null;
         hideInstallBanner();
       });
@@ -604,7 +604,7 @@
       
       banner.innerHTML = `
         <div>
-          <div style="font-weight: 600; margin-bottom: 4px;">📱 Instalar INVINCIT</div>
+          <div style="font-weight: 600; margin-bottom: 4px;">[APP] Instalar INVINCIT</div>
           <div style="font-size: 14px; opacity: 0.9;">Accede más rápido desde tu pantalla de inicio</div>
         </div>
         <div style="display: flex; gap: 8px;">
@@ -642,16 +642,16 @@
         const result = await deferredPrompt.userChoice;
         
         if (result.outcome === 'accepted') {
-          console.log("✅ Usuario aceptó instalar PWA");
+          console.log("EXITO - Usuario aceptó instalar PWA");
         } else {
-          console.log("❌ Usuario rechazó instalar PWA");
+          console.log("INFO - Usuario rechazó instalar PWA");
         }
         
         deferredPrompt = null;
         hideInstallBanner();
         
       } catch (error) {
-        console.error("❌ Error instalando PWA:", error);
+        console.error("ERROR - Error instalando PWA:", error);
       }
     }
 
@@ -666,9 +666,9 @@
     function setupEmailJS() {
       if (typeof emailjs !== 'undefined') {
         emailjs.init("u9aEEVxzM-8Do3RO9");
-        console.log("📧 EmailJS inicializado");
+        console.log("CONFIG - EmailJS inicializado");
       } else {
-        console.warn("⚠️ EmailJS no encontrado");
+        console.warn("WARN - EmailJS no encontrado");
       }
     }
 
@@ -678,7 +678,7 @@
       }
       
       try {
-        console.log("📧 Enviando email...");
+        console.log("EMAIL - Enviando email...");
         
         // Combinar datos de ambos formularios
         const personalForm = document.getElementById('personal-form');
@@ -701,11 +701,11 @@
           "u9aEEVxzM-8Do3RO9"
         );
         
-        console.log("✅ Email enviado:", response);
+        console.log("EXITO - Email enviado:", response);
         return response;
         
       } catch (error) {
-        console.error("❌ Error enviando email:", error);
+        console.error("ERROR - Error enviando email:", error);
         throw error;
       }
     }
@@ -741,7 +741,7 @@
           reportForm.reset();
           
         } catch (error) {
-          console.error("❌ Error:", error);
+          console.error("ERROR - Error:", error);
           showFormError(error.message);
           
         } finally {
@@ -787,7 +787,7 @@
 
     function showFormSuccess() {
       const notification = createNotification(
-        "✅ Reporte enviado",
+        "[EXITO] Reporte enviado",
         "Tu reporte ha sido enviado correctamente. Gracias por tu participación.",
         [{
           text: "Cerrar",
@@ -801,7 +801,7 @@
 
     function showFormError(message) {
       const notification = createNotification(
-        "❌ Error al enviar",
+        "[ERROR] Error al enviar",
         message || "Ocurrió un error al enviar el reporte. Intenta nuevamente.",
         [{
           text: "Cerrar",
@@ -820,9 +820,9 @@
         indicator.style.display = isOnline ? 'none' : 'block';
         
         if (isOnline) {
-          console.log("🌐 Conexión restaurada");
+          console.log("NETWORK - Conexión restaurada");
         } else {
-          console.log("📴 Modo offline");
+          console.log("NETWORK - Modo offline");
         }
       }
       
@@ -843,7 +843,7 @@
           z-index: 10001;
           display: none;
         `;
-        indicator.textContent = "📴 Sin conexión - Funcionando en modo offline";
+        indicator.textContent = "[OFFLINE] Sin conexión - Funcionando en modo offline";
         document.body.appendChild(indicator);
         return indicator;
       }
@@ -870,27 +870,27 @@
     window.installPWA = installPWA;
     window.getAppInfo = getAppInfo;
 
-    console.log("🎯 INVINCIT App Script cargado v2.0.0");
+    console.log("INFO - INVINCIT App Script cargado v2.0.0");
 
     // ========== DEBUGGING Y MONITORING ==========
     function debugServiceWorker() {
       navigator.serviceWorker.getRegistration().then(reg => {
         if (reg) {
-          console.log('✅ SW registrado:', reg.scope);
-          console.log('📊 Estado:', reg.active ? 'Activo' : 'Inactivo');
-          console.log('🔄 Actualizando:', reg.updating ? 'Sí' : 'No');
+          console.log('DEBUG - SW registrado:', reg.scope);
+          console.log('DEBUG - Estado:', reg.active ? 'Activo' : 'Inactivo');
+          console.log('DEBUG - Actualizando:', reg.updating ? 'Sí' : 'No');
         } else {
-          console.log('❌ SW no registrado');
+          console.log('DEBUG - SW no registrado');
         }
       });
       
       // Verificar cache
       caches.keys().then(cacheNames => {
-        console.log('💾 Cachés disponibles:', cacheNames);
+        console.log('DEBUG - Cachés disponibles:', cacheNames);
       });
       
       // Estado de la app
-      console.log('📱 Info de la app:', getAppInfo());
+      console.log('DEBUG - Info de la app:', getAppInfo());
     }
 
     // Ejecutar debug cada 30 segundos
@@ -899,6 +899,6 @@
     // Ejecutar debug inicial
     setTimeout(debugServiceWorker, 2000);
   </script>
-<script src="js/install.js"></script>
+<script src="./js/install.js"></script>
 </body>
 </html>

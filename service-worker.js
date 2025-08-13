@@ -26,16 +26,16 @@ const NETWORK_ONLY = [
 
 // Instalación del Service Worker
 self.addEventListener('install', (event) => {
-    console.log('🔧 Service Worker: Instalando...');
+    console.log('[SW] Service Worker: Instalando...');
     
     event.waitUntil(
         cacheStaticAssets()
             .then(() => {
-                console.log('✅ Service Worker: Instalación completada');
+                console.log('[SW] Service Worker: Instalación completada');
                 return self.skipWaiting();
             })
             .catch(error => {
-                console.error('❌ Service Worker: Error en instalación:', error);
+                console.error('[SW] Service Worker: Error en instalación:', error);
                 // Continuar de todos modos
                 return self.skipWaiting();
             })
@@ -44,16 +44,16 @@ self.addEventListener('install', (event) => {
 
 // Activación del Service Worker
 self.addEventListener('activate', (event) => {
-    console.log('🚀 Service Worker: Activando...');
+    console.log('[SW] Service Worker: Activando...');
     
     event.waitUntil(
         Promise.all([
             cleanupOldCaches(),
             self.clients.claim()
         ]).then(() => {
-            console.log('✅ Service Worker: Activación completada');
+            console.log('[SW] Service Worker: Activación completada');
         }).catch(error => {
-            console.error('❌ Service Worker: Error en activación:', error);
+            console.error('[SW] Service Worker: Error en activación:', error);
         })
     );
 });
@@ -94,7 +94,7 @@ self.addEventListener('fetch', (event) => {
 
 // Manejo de mensajes desde la aplicación principal
 self.addEventListener('message', (event) => {
-    console.log('📨 Service Worker: Mensaje recibido:', event.data);
+    console.log('[SW] Service Worker: Mensaje recibido:', event.data);
     
     switch (event.data.type) {
         case 'SKIP_WAITING':
@@ -115,7 +115,7 @@ self.addEventListener('message', (event) => {
 
 // Notificaciones push
 self.addEventListener('push', (event) => {
-    console.log('📱 Service Worker: Push recibido');
+    console.log('[SW] Service Worker: Push recibido');
     
     const options = {
         body: event.data ? event.data.text() : 'Nuevo reporte recibido',
@@ -134,7 +134,7 @@ self.addEventListener('push', (event) => {
 
 // Click en notificaciones
 self.addEventListener('notificationclick', (event) => {
-    console.log('🔔 Service Worker: Click en notificación');
+    console.log('[SW] Service Worker: Click en notificación');
     
     event.notification.close();
     
@@ -148,7 +148,7 @@ self.addEventListener('notificationclick', (event) => {
 // ===================================
 
 async function cacheStaticAssets() {
-    console.log('📦 Cacheando recursos estáticos...');
+    console.log('[SW] Cacheando recursos estáticos...');
     
     const cache = await caches.open(STATIC_CACHE_NAME);
     
@@ -156,18 +156,18 @@ async function cacheStaticAssets() {
     for (const asset of STATIC_ASSETS) {
         try {
             await cache.add(asset);
-            console.log(`✅ Cacheado: ${asset}`);
+            console.log(`[SW] Cacheado: ${asset}`);
         } catch (error) {
-            console.warn(`⚠️ No se pudo cachear ${asset}:`, error.message);
+            console.warn(`[SW] No se pudo cachear ${asset}:`, error.message);
             // Continuar con los demás archivos
         }
     }
     
-    console.log('✅ Proceso de cache completado');
+    console.log('[SW] Proceso de cache completado');
 }
 
 async function cleanupOldCaches() {
-    console.log('🧹 Limpiando cachés antiguos...');
+    console.log('[SW] Limpiando cachés antiguos...');
     
     const cacheNames = await caches.keys();
     const validCaches = [STATIC_CACHE_NAME, CACHE_NAME];
@@ -175,12 +175,12 @@ async function cleanupOldCaches() {
     const deletePromises = cacheNames
         .filter(cacheName => !validCaches.includes(cacheName))
         .map(cacheName => {
-            console.log(`🗑️ Eliminando caché: ${cacheName}`);
+            console.log(`[SW] Eliminando caché: ${cacheName}`);
             return caches.delete(cacheName);
         });
     
     await Promise.all(deletePromises);
-    console.log('✅ Limpieza de cachés completada');
+    console.log('[SW] Limpieza de cachés completada');
 }
 
 // ===================================
@@ -188,17 +188,17 @@ async function cleanupOldCaches() {
 // ===================================
 
 self.addEventListener('error', (event) => {
-    console.error('❌ Service Worker error:', event.error);
+    console.error('[SW] Service Worker error:', event.error);
 });
 
 self.addEventListener('unhandledrejection', (event) => {
-    console.error('❌ Service Worker unhandled rejection:', event.reason);
+    console.error('[SW] Service Worker unhandled rejection:', event.reason);
 });
 
 // ===================================
 // LOGGING FINAL
 // ===================================
 
-console.log('🔧 Service Worker cargado correctamente');
-console.log(`📋 Caché principal: ${STATIC_CACHE_NAME}`);
-console.log(`📦 Recursos a cachear: ${STATIC_ASSETS.length}`);
+console.log('[SW] Service Worker cargado correctamente');
+console.log(`[SW] Caché principal: ${STATIC_CACHE_NAME}`);
+console.log(`[SW] Recursos a cachear: ${STATIC_ASSETS.length}`);
