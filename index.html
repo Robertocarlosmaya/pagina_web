@@ -64,7 +64,7 @@
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   
   <!-- Stylesheets -->
-  <link href="./css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css">
   <link href="./css/webflow.css" rel="stylesheet" type="text/css">
   <link href="./css/ut-ayuda.webflow.css" rel="stylesheet" type="text/css">
   
@@ -92,25 +92,296 @@
     }(window,document);
   </script>
   
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <!-- Navigation Styles -->
+  <style>
+    /* ========== NAVIGATION STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 70px;
+    }
+    
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 20px;
+      color: #2563eb;
+      text-decoration: none;
+    }
+    
+    .nav-logo {
+      height: 40px;
+      width: auto;
+    }
+    
+    .nav-title {
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+    
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-item {
+      position: relative;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      color: #374151;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: #2563eb;
+      background: rgba(37, 99, 235, 0.05);
+    }
+    
+    .nav-link.active {
+      color: #2563eb;
+      background: rgba(37, 99, 235, 0.1);
+    }
+    
+    .nav-link-help {
+      color: #2563eb !important;
+      border: 1px solid #2563eb;
+    }
+    
+    .nav-link-help:hover {
+      background: #2563eb;
+      color: white !important;
+    }
+    
+    /* Mobile Menu Toggle */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 4px;
+    }
+    
+    .bar {
+      width: 25px;
+      height: 3px;
+      background: #2563eb;
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+    
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: white;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 2rem 0;
+        gap: 0;
+      }
+      
+      .nav-menu.active {
+        left: 0;
+      }
+      
+      .nav-item {
+        margin: 0.5rem 0;
+      }
+      
+      .nav-link {
+        font-size: 18px;
+        padding: 12px 24px;
+        display: block;
+        margin: 0 20px;
+      }
+      
+      .nav-toggle {
+        display: flex;
+      }
+      
+      .nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .nav-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      
+      .nav-toggle.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+      
+      .nav-container {
+        padding: 0 16px;
+        min-height: 60px;
+      }
+      
+      .nav-brand {
+        font-size: 18px;
+      }
+      
+      .nav-logo {
+        height: 35px;
+      }
+    }
+    
+    /* Smooth scroll offset for fixed navbar */
+    html {
+      scroll-padding-top: 80px;
+    }
+    
+    /* Body padding to account for fixed navbar */
+    body {
+      padding-top: 70px;
+    }
+    
+    /* Active section highlighting */
+    .nav-link.active-section {
+      color: #2563eb;
+      background: rgba(37, 99, 235, 0.1);
+    }
+    
+    /* Loading indicator */
+    .nav-loading {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #2563eb, transparent);
+      animation: loading 1.5s infinite;
+    }
+    
+    @keyframes loading {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    /* Focus styles for accessibility */
+    .nav-link:focus,
+    .nav-toggle:focus {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding-top: 60px;
+      }
+      
+      .nav-menu {
+        top: 60px;
+      }
+    }
+  </style>
+  
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+  <script src="./firebase-config.js"></script>
 </head>
 
 <body>
   <!-- Connection Status Indicator (will be added by JS) -->
   
-  <header class="section inverse-section">
+  <!-- Navigation Menu -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <!-- Logo/Brand -->
+      <div class="nav-brand">
+        <img src="./images/111111111111111111111111111111111111111111111111.PNG" alt="INVINCIT Logo" class="nav-logo">
+        <span class="nav-title">INVINCIT</span>
+      </div>
+      
+      <!-- Navigation Links -->
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#inicio" class="nav-link">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a href="#formulario" class="nav-link">Reportar</a>
+        </li>
+        <li class="nav-item">
+          <a href="#contacto" class="nav-link">Contacto</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link nav-link-help">Ayuda</a>
+        </li>
+      </ul>
+      
+      <!-- Mobile Menu Button -->
+      <div class="nav-toggle" aria-label="Toggle navigation menu" role="button" tabindex="0">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+  
+  <header id="inicio" class="section inverse-section">
     <div class="container">
       <div class="w-layout-grid grid-layout desktop-5-column tablet-1-column grid-gap-sm">
         <div id="w-node-_3d1c0c25-8a52-1ab9-e81e-37fdf15c6167-4c5cda49" class="utility-position-relative">
           <img width="" height="" alt="imagen de fondo del campus universitario" src="https://webflow-prod-assets.s3.amazonaws.com/image-generation-assets/f770e93b-2743-419d-a197-e22d37cfda1c.avif" loading="lazy" data-aisg-image-id="f770e93b-2743-419d-a197-e22d37cfda1c" class="cover-image utility-mask-left">
         </div>
         <div id="w-node-d4acc4f9-0b02-d87e-5be2-e1ef4c5cda4e-4c5cda49" class="utility-position-relative">
-          <h1 id="inicio" class="h1-heading">Cuida tu campus, haz la diferencia</h1>
+          <h1 class="h1-heading">Cuida tu campus, haz la diferencia</h1>
           <p class="subheading utility-max-width-md">Tu reporte ayuda a crear un entorno más limpio, seguro y sostenible para toda la comunidad. ¡Participa y mejora nuestro espacio juntos!</p>
           <button id="butInstall" aria-label="install">INSTALAR APP INVINCIT </button>
 
-            <a href="#formulario" class="button primary-button-on-inverse w-button">Generar Reporte</a>
+            <a href="#formulario" class="button primary-button-on-inverse w-button" onclick="event.preventDefault(); document.getElementById('formulario').scrollIntoView({behavior: 'smooth'});">Generar Reporte</a>
           </div>
         </div>
       </div>
@@ -202,7 +473,7 @@
                 <img width="" height="" alt="imagen de discusión en equipo" src="https://webflow-prod-assets.s3.amazonaws.com/image-generation-assets/b6ab2659-e9ac-4c53-b2a3-8e84cc66b83c.avif" loading="lazy" data-aisg-image-id="b6ab2659-e9ac-4c53-b2a3-8e84cc66b83c" class="image cover-image">
               </div>
               <h3 class="h3-heading">Soporte</h3>
-              <p class="utility-margin-bottom-2rem">Visita nuestro <a href="#contacto" class="text-link secondary-text-link utility-text-span-padding">Centro de ayuda</a> o la comunidad para resolver dudas sobre el proceso de reporte o recibir ayuda personalizada.</p>
+              <p class="utility-margin-bottom-2rem">Visita nuestro <a href="#contacto" class="text-link secondary-text-link utility-text-span-padding" onclick="event.preventDefault(); document.getElementById('contacto').scrollIntoView({behavior: 'smooth'});">Centro de ayuda</a> o la comunidad para resolver dudas sobre el proceso de reporte o recibir ayuda personalizada.</p>
             </div>
           </li>
           
@@ -365,8 +636,8 @@
       // Registrar Service Worker
       registerServiceWorker();
       
-      // Configurar EmailJS
-      setupEmailJS();
+      // Configurar Firebase
+      setupFirebase();
       
       // Configurar formularios
       setupForms();
@@ -376,6 +647,9 @@
       
       // Configurar PWA install prompt
       setupPWAInstall();
+      
+      // Configurar navegación
+      setupNavigation();
     }
 
     // ========== SERVICE WORKER ==========
@@ -662,50 +936,46 @@
       }
     }
 
-    // ========== EMAIL JS ==========
-    function setupEmailJS() {
-      if (typeof emailjs !== 'undefined') {
-        emailjs.init("u9aEEVxzM-8Do3RO9");
-        console.log("CONFIG - EmailJS inicializado");
-      } else {
-        console.warn("WARN - EmailJS no encontrado");
+    // ========== FIREBASE CONFIGURATION ==========
+    function setupFirebase() {
+      try {
+        // Usar configuración externa
+        if (!window.firebaseConfig) {
+          throw new Error("Configuración de Firebase no encontrada");
+        }
+        
+        // Inicializar Firebase
+        firebase.initializeApp(window.firebaseConfig);
+        console.log("CONFIG - Firebase inicializado correctamente");
+        return true;
+      } catch (error) {
+        console.error("ERROR - Error inicializando Firebase:", error);
+        return false;
       }
     }
 
-    async function sendEmail() {
-      if (typeof emailjs === 'undefined') {
-        throw new Error("EmailJS no está disponible");
-      }
-      
+    async function saveToFirebase(reportData) {
       try {
-        console.log("EMAIL - Enviando email...");
+        console.log("FIREBASE - Guardando reporte...");
         
-        // Combinar datos de ambos formularios
-        const personalForm = document.getElementById('personal-form');
-        const reportForm = document.getElementById('email-form');
+        const db = firebase.firestore();
         
-        const formData = {
-          user_name: personalForm.user_name.value,
-          user_email: personalForm.user_email.value,
-          ubicacion: reportForm.ubicacion.value,
-          clasificacion: reportForm.clasificacion.value,
-          comentario: reportForm.comentario.value,
-          fecha: new Date().toLocaleString('es-MX'),
-          timestamp: Date.now()
+        // Agregar timestamp del servidor
+        const reportWithTimestamp = {
+          ...reportData,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'nuevo',
+          fechaCreacion: new Date().toLocaleString('es-MX')
         };
         
-        const response = await emailjs.send(
-          "service_psce6x2", 
-          "template_zlh4voe", 
-          formData,
-          "u9aEEVxzM-8Do3RO9"
-        );
+        // Guardar en colección 'reportes'
+        const docRef = await db.collection('reportes').add(reportWithTimestamp);
         
-        console.log("EXITO - Email enviado:", response);
-        return response;
+        console.log("EXITO - Reporte guardado con ID:", docRef.id);
+        return { success: true, id: docRef.id };
         
       } catch (error) {
-        console.error("ERROR - Error enviando email:", error);
+        console.error("ERROR - Error guardando en Firebase:", error);
         throw error;
       }
     }
@@ -730,8 +1000,14 @@
             throw new Error("Por favor completa todos los campos requeridos");
           }
           
-          // Enviar email
-          await sendEmail();
+          // Enviar a Firebase
+          const result = await saveToFirebase({
+            nombre: personalForm.user_name.value,
+            email: personalForm.user_email.value,
+            ubicacion: reportForm.ubicacion.value,
+            clasificacion: reportForm.clasificacion.value,
+            comentario: reportForm.comentario.value
+          });
           
           // Mostrar éxito
           showFormSuccess();
@@ -787,8 +1063,8 @@
 
     function showFormSuccess() {
       const notification = createNotification(
-        "[EXITO] Reporte enviado",
-        "Tu reporte ha sido enviado correctamente. Gracias por tu participación.",
+        "[EXITO] Reporte guardado",
+        "Tu reporte ha sido guardado correctamente en nuestra base de datos. Gracias por tu participación.",
         [{
           text: "Cerrar",
           action: "dismiss", 
@@ -801,8 +1077,8 @@
 
     function showFormError(message) {
       const notification = createNotification(
-        "[ERROR] Error al enviar",
-        message || "Ocurrió un error al enviar el reporte. Intenta nuevamente.",
+        "[ERROR] Error al guardar",
+        message || "Ocurrió un error al guardar el reporte. Intenta nuevamente.",
         [{
           text: "Cerrar",
           action: "dismiss",
@@ -852,6 +1128,129 @@
       window.addEventListener('offline', updateConnectionStatus);
       
       updateConnectionStatus();
+    }
+
+    // ========== NAVIGATION ==========
+    function setupNavigation() {
+      const navToggle = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const navbar = document.querySelector('.navbar');
+      
+      // Mobile menu toggle
+      if (navToggle && navMenu) {
+        const toggleMenu = () => {
+          navToggle.classList.toggle('active');
+          navMenu.classList.toggle('active');
+          
+          // Update aria-expanded for accessibility
+          const isExpanded = navMenu.classList.contains('active');
+          navToggle.setAttribute('aria-expanded', isExpanded);
+        };
+        
+        navToggle.addEventListener('click', toggleMenu);
+        
+        // Keyboard accessibility
+        navToggle.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleMenu();
+          }
+        });
+      }
+      
+      // Close mobile menu when clicking on a link
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          // Close mobile menu
+          if (navToggle && navMenu) {
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+          }
+          
+          // Smooth scroll to section
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            const targetSection = document.querySelector(href);
+            if (targetSection) {
+              targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          }
+        });
+      });
+      
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', (e) => {
+        const isNavToggle = e.target.closest('.nav-toggle');
+        const isNavMenu = e.target.closest('.nav-menu');
+        
+        if (!isNavToggle && !isNavMenu && navMenu && navToggle) {
+          navToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+        }
+      });
+      
+      // Close mobile menu on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu && navToggle) {
+          navToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+        }
+      });
+      
+      // Scroll effects
+      let lastScrollY = window.scrollY;
+      
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        
+        // Add scrolled class for styling
+        if (currentScrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+        
+        // Update active section
+        updateActiveSection();
+        
+        lastScrollY = currentScrollY;
+      });
+      
+      // Set initial active section
+      updateActiveSection();
+    }
+    
+    function updateActiveSection() {
+      const sections = ['inicio', 'formulario', 'contacto'];
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      let currentSection = '';
+      
+      sections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          const threshold = window.innerHeight / 3;
+          
+          if (rect.top <= threshold && rect.bottom >= threshold) {
+            currentSection = sectionId;
+          }
+        }
+      });
+      
+      // Update active link
+      navLinks.forEach(link => {
+        link.classList.remove('active-section');
+        const href = link.getAttribute('href');
+        if (href === `#${currentSection}`) {
+          link.classList.add('active-section');
+        }
+      });
     }
 
     // ========== UTILIDADES ==========
